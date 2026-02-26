@@ -24,6 +24,11 @@ export interface LiquidityData {
   last_updated: string;
 }
 
+export interface HistoryPoint {
+  date: string;
+  price: number;
+}
+
 export type ConditionStatus = 'pass' | 'fail' | 'active' | 'warning';
 
 export interface Condition {

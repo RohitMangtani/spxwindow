@@ -2,6 +2,7 @@
 
 import { useSpxData } from '@/lib/hooks';
 import { HeroBar } from '@/components/HeroBar';
+import { PriceChart } from '@/components/PriceChart';
 import { ClassificationEngine } from '@/components/ClassificationEngine';
 import { ConvictionGauge } from '@/components/ConvictionGauge';
 import { WhaleBehavior } from '@/components/WhaleBehavior';
@@ -12,7 +13,7 @@ import { ScenarioTargets } from '@/components/ScenarioTargets';
 import { InvalidationMonitor } from '@/components/InvalidationMonitor';
 
 export default function SpxwindowPage() {
-  const { price, holders, liquidity, loading, error } = useSpxData();
+  const { price, holders, liquidity, history, loading, error } = useSpxData();
 
   if (loading) {
     return (
@@ -33,6 +34,8 @@ export default function SpxwindowPage() {
   return (
     <div className="space-y-6 animate-fade-in">
       <HeroBar price={price} liquidity={liquidity} />
+
+      <PriceChart history={history} price={price} />
 
       <ClassificationEngine price={price} holders={holders} />
 
