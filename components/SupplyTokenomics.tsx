@@ -1,13 +1,10 @@
 'use client';
 
-import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { MAX_SUPPLY, CIRCULATING_SUPPLY, BURNED_SUPPLY, LP_LOCK_YEARS, BUY_SELL_TAX } from '@/lib/static-data';
 import type { LiquidityData } from '@/lib/types';
 
-const SUPPLY_DATA = [
-  { name: 'Circulating', value: CIRCULATING_SUPPLY, color: '#3b82f6' },
-  { name: 'Burned', value: BURNED_SUPPLY, color: '#ef4444' },
-];
+const circulatingPct = (CIRCULATING_SUPPLY / MAX_SUPPLY) * 100;
+const burnedPct = (BURNED_SUPPLY / MAX_SUPPLY) * 100;
 
 function TrustBadge({ label, value }: { label: string; value: string }) {
   return (
@@ -21,23 +18,29 @@ function TrustBadge({ label, value }: { label: string; value: string }) {
   );
 }
 
+function DonutChart() {
+  // CSS conic-gradient donut — no library needed
+  const gradient = `conic-gradient(#3b82f6 0% ${circulatingPct}%, #ef4444 ${circulatingPct}% 100%)`;
+  return (
+    <div className="relative w-28 h-28">
+      <div
+        className="w-full h-full rounded-full"
+        style={{ background: gradient }}
+      />
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="w-16 h-16 rounded-full bg-[var(--surface)]" />
+      </div>
+    </div>
+  );
+}
+
 export function SupplyTokenomics({ liquidity }: { liquidity: LiquidityData | null }) {
   return (
     <div className="section-block space-y-4">
       <h2 className="text-sm font-semibold uppercase tracking-widest text-[var(--fg-muted)]">Supply & Tokenomics</h2>
 
       <div className="flex flex-col sm:flex-row items-center gap-6">
-        <div className="w-32 h-32">
-          <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
-              <Pie data={SUPPLY_DATA} dataKey="value" innerRadius={35} outerRadius={55} strokeWidth={0}>
-                {SUPPLY_DATA.map(entry => (
-                  <Cell key={entry.name} fill={entry.color} />
-                ))}
-              </Pie>
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
+        <DonutChart />
 
         <div className="flex-1 space-y-2">
           <div className="flex items-center justify-between">
@@ -46,7 +49,7 @@ export function SupplyTokenomics({ liquidity }: { liquidity: LiquidityData | nul
               <span className="text-xs text-[var(--fg-muted)]">Circulating</span>
             </div>
             <span className="text-xs font-medium">
-              {(CIRCULATING_SUPPLY / 1e6).toFixed(0)}M ({((CIRCULATING_SUPPLY / MAX_SUPPLY) * 100).toFixed(1)}%)
+              {(CIRCULATING_SUPPLY / 1e6).toFixed(0)}M ({circulatingPct.toFixed(1)}%)
             </span>
           </div>
           <div className="flex items-center justify-between">
@@ -55,7 +58,7 @@ export function SupplyTokenomics({ liquidity }: { liquidity: LiquidityData | nul
               <span className="text-xs text-[var(--fg-muted)]">Burned</span>
             </div>
             <span className="text-xs font-medium">
-              {(BURNED_SUPPLY / 1e6).toFixed(0)}M ({((BURNED_SUPPLY / MAX_SUPPLY) * 100).toFixed(1)}%)
+              {(BURNED_SUPPLY / 1e6).toFixed(0)}M ({burnedPct.toFixed(1)}%)
             </span>
           </div>
           {liquidity && (
