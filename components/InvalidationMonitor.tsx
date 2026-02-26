@@ -23,9 +23,16 @@ const STATUS_DOT: Record<Status, string> = {
   danger: 'bg-red-500 animate-pulse',
 };
 
+const STATUS_LABEL: Record<Status, string> = {
+  safe: 'Healthy',
+  warning: 'Watch',
+  danger: 'Danger',
+};
+
 interface TriggerCheck {
   id: string;
   label: string;
+  explanation: string;
   threshold: string;
   current: string;
   status: Status;
@@ -41,14 +48,16 @@ export function InvalidationMonitor({ holders, liquidity, price }: {
   const checks: TriggerCheck[] = [
     {
       id: 'holders',
-      label: 'ETH Holder Count',
+      label: 'Holder Count',
+      explanation: 'Unique wallets on Ethereum',
       threshold: `> ${t.holder_floor.toLocaleString()}`,
       current: holders ? (holders.eth_holders ?? 0).toLocaleString() : '\u2014',
       status: holders ? getStatus(holders.eth_holders ?? 0, t.holder_floor, 10) : 'safe',
     },
     {
       id: 'liquidity',
-      label: 'DEX Liquidity',
+      label: 'Trading Liquidity',
+      explanation: 'Money available in DEX pools',
       threshold: `> $${(t.liquidity_floor / 1000).toFixed(0)}K`,
       current: liquidity ? `$${(liquidity.dex_liquidity_usd / 1e6).toFixed(2)}M` : '\u2014',
       status: liquidity ? getStatus(liquidity.dex_liquidity_usd, t.liquidity_floor, 10) : 'safe',
@@ -56,6 +65,7 @@ export function InvalidationMonitor({ holders, liquidity, price }: {
     {
       id: 'volume',
       label: 'Daily Volume',
+      explanation: 'How much is being traded per day',
       threshold: `> $${(t.volume_floor / 1000).toFixed(0)}K`,
       current: price ? `$${(price.volume_24h / 1e6).toFixed(2)}M` : '\u2014',
       status: price ? getStatus(price.volume_24h, t.volume_floor, 10) : 'safe',
@@ -67,9 +77,12 @@ export function InvalidationMonitor({ holders, liquidity, price }: {
   return (
     <div className={`section-block space-y-4 ${anyDanger ? 'border-red-500/50' : ''}`}>
       <div className="flex items-center justify-between">
-        <h2 className="text-sm font-semibold uppercase tracking-widest text-[var(--fg-muted)]">Invalidation Monitor</h2>
+        <div>
+          <h2 className="text-sm font-semibold uppercase tracking-widest text-[var(--fg-muted)]">Warning Signs</h2>
+          <p className="text-xs text-[var(--fg-muted)] mt-1">Key health metrics that could signal trouble. If any turn red, it's time to pay attention.</p>
+        </div>
         {anyDanger && (
-          <span className="text-xs px-2 py-1 rounded-full bg-red-500/15 text-red-400 border border-red-500/30 animate-pulse">
+          <span className="text-xs px-2 py-1 rounded-full bg-red-500/15 text-red-400 border border-red-500/30 animate-pulse shrink-0 ml-3">
             ALERT
           </span>
         )}
@@ -80,18 +93,22 @@ export function InvalidationMonitor({ holders, liquidity, price }: {
           <div key={check.id} className={`flex items-center justify-between px-3 py-2 rounded-lg border ${STATUS_STYLES[check.status]}`}>
             <div className="flex items-center gap-2">
               <div className={`w-2 h-2 rounded-full ${STATUS_DOT[check.status]}`} />
-              <span className="text-xs font-medium">{check.label}</span>
+              <div>
+                <span className="text-xs font-medium">{check.label}</span>
+                <div className="text-[10px] text-[var(--fg-muted)]">{check.explanation}</div>
+              </div>
             </div>
             <div className="flex items-center gap-3">
-              <span className="text-[10px] text-[var(--fg-muted)]">Floor: {check.threshold}</span>
+              <span className="text-[10px] text-[var(--fg-muted)]">Min: {check.threshold}</span>
               <span className="text-xs font-mono font-medium">{check.current}</span>
+              <span className="text-[10px] font-medium">{STATUS_LABEL[check.status]}</span>
             </div>
           </div>
         ))}
       </div>
 
       <div className="text-[10px] text-[var(--fg-muted)]">
-        Thesis invalidated if any trigger breaches floor for 30+ consecutive days.
+        If any of these drop below their minimum for 30+ days, the investment thesis is in serious trouble.
       </div>
     </div>
   );

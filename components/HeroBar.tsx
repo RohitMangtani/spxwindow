@@ -33,7 +33,7 @@ export function HeroBar({ price, liquidity }: { price: PriceData | null; liquidi
     <div className="section-block">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
         <div>
-          <div className="text-xs text-[var(--fg-muted)] uppercase tracking-widest mb-1">SPX6900</div>
+          <div className="text-xs text-[var(--fg-muted)] uppercase tracking-widest mb-1">SPX6900 Price</div>
           <div className="text-3xl sm:text-4xl font-bold tracking-tight">
             ${price.price < 1 ? price.price.toFixed(4) : price.price.toFixed(2)}
           </div>
@@ -51,15 +51,15 @@ export function HeroBar({ price, liquidity }: { price: PriceData | null; liquidi
           <div className="text-sm font-medium">{fmt(price.market_cap)}</div>
         </div>
         <div>
-          <div className="text-xs text-[var(--fg-muted)]">24h Volume</div>
+          <div className="text-xs text-[var(--fg-muted)]">24h Trading Volume</div>
           <div className="text-sm font-medium">{fmt(price.volume_24h)}</div>
         </div>
         <div>
-          <div className="text-xs text-[var(--fg-muted)]">ATH Drawdown</div>
+          <div className="text-xs text-[var(--fg-muted)]">Down From All-Time High</div>
           <div className="text-sm font-medium text-red-400">{pct(price.ath_change_percentage)}</div>
         </div>
         <div>
-          <div className="text-xs text-[var(--fg-muted)]">To ATH</div>
+          <div className="text-xs text-[var(--fg-muted)]">Gain Needed to Reach ATH</div>
           <div className="text-sm font-medium text-amber-400">+{athGainRequired.toFixed(0)}%</div>
         </div>
       </div>
@@ -69,10 +69,12 @@ export function HeroBar({ price, liquidity }: { price: PriceData | null; liquidi
           <div>
             <div className="text-xs text-[var(--fg-muted)]">DEX Liquidity</div>
             <div className="text-sm font-medium">{fmt(liquidity.dex_liquidity_usd)}</div>
+            <div className="text-[10px] text-[var(--fg-muted)]">Money available for trading</div>
           </div>
           <div>
             <div className="text-xs text-[var(--fg-muted)]">DEX 24h Volume</div>
             <div className="text-sm font-medium">{fmt(liquidity.volume_24h)}</div>
+            <div className="text-[10px] text-[var(--fg-muted)]">Traded on decentralized exchanges today</div>
           </div>
         </div>
       )}

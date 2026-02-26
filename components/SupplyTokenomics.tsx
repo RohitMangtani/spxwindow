@@ -37,7 +37,10 @@ function DonutChart() {
 export function SupplyTokenomics({ liquidity }: { liquidity: LiquidityData | null }) {
   return (
     <div className="section-block space-y-4">
-      <h2 className="text-sm font-semibold uppercase tracking-widest text-[var(--fg-muted)]">Supply & Tokenomics</h2>
+      <div>
+        <h2 className="text-sm font-semibold uppercase tracking-widest text-[var(--fg-muted)]">Token Supply & Safety</h2>
+        <p className="text-xs text-[var(--fg-muted)] mt-1">How the total supply is distributed, plus key trust signals</p>
+      </div>
 
       <div className="flex flex-col sm:flex-row items-center gap-6">
         <DonutChart />

@@ -35,10 +35,16 @@ export default function RootLayout({
         <div className="min-h-screen">
           <header className="border-b border-[var(--border)] px-6 py-4">
             <div className="max-w-7xl mx-auto flex items-center justify-between">
-              <h1 className="text-lg font-semibold tracking-tight">
-                SPX<span className="text-[var(--fg-muted)]">window</span>
-              </h1>
-              <span className="text-xs text-[var(--fg-muted)]">Live Dashboard</span>
+              <div>
+                <h1 className="text-lg font-semibold tracking-tight">
+                  SPX<span className="text-[var(--fg-muted)]">window</span>
+                </h1>
+                <p className="text-xs text-[var(--fg-muted)]">Everything you need to know about SPX6900, updated live</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                <span className="text-xs text-green-400">Live</span>
+              </div>
             </div>
           </header>
           <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6">{children}</main>

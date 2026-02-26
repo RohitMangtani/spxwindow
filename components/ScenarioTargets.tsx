@@ -15,11 +15,14 @@ export function ScenarioTargets({ price }: { price: PriceData | null }) {
 
   return (
     <div className="section-block space-y-6">
-      <h2 className="text-sm font-semibold uppercase tracking-widest text-[var(--fg-muted)]">Scenario Targets & Peers</h2>
+      <div>
+        <h2 className="text-sm font-semibold uppercase tracking-widest text-[var(--fg-muted)]">What If Scenarios</h2>
+        <p className="text-xs text-[var(--fg-muted)] mt-1">What would SPX be worth if it reached the market cap of other meme coins?</p>
+      </div>
 
       <div>
         <div className="text-xs text-[var(--fg-muted)] mb-2">
-          Price Scenarios from Current ${currentPrice < 1 ? currentPrice.toFixed(4) : currentPrice.toFixed(2)}
+          Price Targets (current price: ${currentPrice < 1 ? currentPrice.toFixed(4) : currentPrice.toFixed(2)})
         </div>
         <div className="space-y-2">
           {SCENARIO_TARGETS.map(t => {
@@ -28,8 +31,8 @@ export function ScenarioTargets({ price }: { price: PriceData | null }) {
               <div key={t.label} className="flex items-center justify-between py-1.5 border-b border-[var(--border)] last:border-0">
                 <span className="text-xs">{t.label}</span>
                 <div className="flex items-center gap-4">
-                  <span className="text-xs text-[var(--fg-muted)]">{fmt(t.market_cap)}</span>
-                  <span className="text-xs font-medium text-green-400">{multiple.toFixed(1)}x</span>
+                  <span className="text-xs text-[var(--fg-muted)]">{fmt(t.market_cap)} mcap</span>
+                  <span className="text-xs font-medium text-green-400">{multiple.toFixed(1)}x your money</span>
                 </div>
               </div>
             );
@@ -38,7 +41,7 @@ export function ScenarioTargets({ price }: { price: PriceData | null }) {
       </div>
 
       <div>
-        <div className="text-xs text-[var(--fg-muted)] mb-2">Probability Assessment (Research Estimate)</div>
+        <div className="text-xs text-[var(--fg-muted)] mb-2">How Likely? (Research Estimate)</div>
         <div className="space-y-2">
           {PROBABILITY_SCENARIOS.map(s => (
             <div key={s.label}>
@@ -52,18 +55,19 @@ export function ScenarioTargets({ price }: { price: PriceData | null }) {
             </div>
           ))}
         </div>
+        <div className="text-[10px] text-[var(--fg-muted)] mt-2">These are subjective estimates, not guarantees. Do your own research.</div>
       </div>
 
       <div>
-        <div className="text-xs text-[var(--fg-muted)] mb-2">Peer Comparison</div>
+        <div className="text-xs text-[var(--fg-muted)] mb-2">How SPX Compares to Other Meme Coins</div>
         <div className="overflow-x-auto">
           <table className="w-full text-xs">
             <thead>
               <tr className="text-[var(--fg-muted)] border-b border-[var(--border)]">
                 <th className="text-left py-2 font-medium">Token</th>
                 <th className="text-right py-2 font-medium">Market Cap</th>
-                <th className="text-right py-2 font-medium">ATH DD</th>
-                <th className="text-right py-2 font-medium">1Y Return</th>
+                <th className="text-right py-2 font-medium">Down From Peak</th>
+                <th className="text-right py-2 font-medium">1 Year Return</th>
               </tr>
             </thead>
             <tbody>

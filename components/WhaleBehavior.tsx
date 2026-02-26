@@ -10,22 +10,22 @@ const CATEGORY_COLORS: Record<string, string> = {
 };
 
 const CATEGORY_LABELS: Record<string, string> = {
-  accumulating: 'Accumulating',
-  mixed_accumulating: 'Mixed / Net Acc.',
-  holding: 'Holding',
-  distributing: 'Distributing',
+  accumulating: 'Buying More',
+  mixed_accumulating: 'Mostly Buying',
+  holding: 'Holding Steady',
+  distributing: 'Selling',
 };
 
 export function WhaleBehavior() {
   return (
     <div className="section-block space-y-4">
-      <div className="flex items-center justify-between">
-        <h2 className="text-sm font-semibold uppercase tracking-widest text-[var(--fg-muted)]">Whale Behavior</h2>
-        <span className="text-xs text-[var(--fg-muted)]">Updated {WHALE_LAST_UPDATED}</span>
+      <div>
+        <h2 className="text-sm font-semibold uppercase tracking-widest text-[var(--fg-muted)]">Big Wallet Activity</h2>
+        <p className="text-xs text-[var(--fg-muted)] mt-1">What the top 20 largest holders are doing — are whales buying, holding, or dumping?</p>
       </div>
 
       <div>
-        <div className="text-xs text-[var(--fg-muted)] mb-2">Top 20 Wallets</div>
+        <div className="text-xs text-[var(--fg-muted)] mb-2">Top 20 Wallets Breakdown</div>
         <div className="flex h-6 rounded-full overflow-hidden">
           {WHALE_DATA.map(w => (
             <div
@@ -49,13 +49,19 @@ export function WhaleBehavior() {
 
       <div className="grid grid-cols-2 gap-3 pt-3 border-t border-[var(--border)]">
         <div>
-          <div className="text-xs text-[var(--fg-muted)]">Net Whale Flow (post-ATH)</div>
+          <div className="text-xs text-[var(--fg-muted)]">Net Whale Money Flow</div>
           <div className="text-lg font-bold text-green-400">+${(WHALE_NET_FLOW / 1_000_000).toFixed(1)}M</div>
+          <div className="text-[10px] text-[var(--fg-muted)]">Whales have added this much since the price peak</div>
         </div>
         <div>
-          <div className="text-xs text-[var(--fg-muted)]">Top 10 Concentration</div>
+          <div className="text-xs text-[var(--fg-muted)]">Top 10 Own</div>
           <div className="text-lg font-bold">{WHALE_TOP10_CONCENTRATION}%</div>
+          <div className="text-[10px] text-[var(--fg-muted)]">of total supply held by 10 biggest wallets</div>
         </div>
+      </div>
+
+      <div className="text-[10px] text-[var(--fg-muted)]">
+        Research snapshot from {WHALE_LAST_UPDATED}
       </div>
     </div>
   );
