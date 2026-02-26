@@ -56,21 +56,31 @@ export async function fetchDexScreenerLiquidity() {
 }
 
 export async function fetchEtherscanHolders(): Promise<number> {
-  const res = await fetch(
-    `https://api.etherscan.io/api?module=token&action=tokenholdercount&contractaddress=${SPX_ETH_CONTRACT}`,
-    { next: { revalidate: 300 } }
-  );
-  if (!res.ok) return 0;
-  const data = await res.json();
-  return parseInt(data.result || '0', 10);
+  try {
+    const res = await fetch(
+      `https://api.etherscan.io/api?module=token&action=tokenholdercount&contractaddress=${SPX_ETH_CONTRACT}`,
+      { next: { revalidate: 300 } }
+    );
+    if (!res.ok) return 0;
+    const data = await res.json();
+    const parsed = parseInt(data.result, 10);
+    return isNaN(parsed) ? 0 : parsed;
+  } catch {
+    return 0;
+  }
 }
 
 export async function fetchBasescanHolders(): Promise<number> {
-  const res = await fetch(
-    `https://api.basescan.org/api?module=token&action=tokenholdercount&contractaddress=${SPX_BASE_CONTRACT}`,
-    { next: { revalidate: 300 } }
-  );
-  if (!res.ok) return 0;
-  const data = await res.json();
-  return parseInt(data.result || '0', 10);
+  try {
+    const res = await fetch(
+      `https://api.basescan.org/api?module=token&action=tokenholdercount&contractaddress=${SPX_BASE_CONTRACT}`,
+      { next: { revalidate: 300 } }
+    );
+    if (!res.ok) return 0;
+    const data = await res.json();
+    const parsed = parseInt(data.result, 10);
+    return isNaN(parsed) ? 0 : parsed;
+  } catch {
+    return 0;
+  }
 }

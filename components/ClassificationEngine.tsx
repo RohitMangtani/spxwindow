@@ -29,7 +29,7 @@ export function ClassificationEngine({ price, holders }: { price: PriceData | nu
       return { ...c, status: price.market_cap > 0 ? 'pass' as const : 'fail' as const };
     }
     if (c.id === 'N5' && holders) {
-      return { ...c, status: holders.eth_holders > 1000 ? 'pass' as const : 'fail' as const };
+      return { ...c, status: (holders.eth_holders ?? 0) > 1000 ? 'pass' as const : 'fail' as const };
     }
     return c;
   });

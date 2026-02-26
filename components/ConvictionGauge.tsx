@@ -56,11 +56,11 @@ export function ConvictionGauge({ holders }: { holders: HolderData | null }) {
           <div className="grid grid-cols-2 gap-3">
             <div>
               <div className="text-xs text-[var(--fg-muted)]">ETH</div>
-              <div className="text-sm font-medium">{holders.eth_holders.toLocaleString()}</div>
+              <div className="text-sm font-medium">{(holders.eth_holders ?? 0).toLocaleString()}</div>
             </div>
             <div>
               <div className="text-xs text-[var(--fg-muted)]">Base</div>
-              <div className="text-sm font-medium">{holders.base_holders.toLocaleString()}</div>
+              <div className="text-sm font-medium">{(holders.base_holders ?? 0).toLocaleString()}</div>
             </div>
           </div>
         </div>

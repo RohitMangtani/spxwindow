@@ -43,8 +43,8 @@ export function InvalidationMonitor({ holders, liquidity, price }: {
       id: 'holders',
       label: 'ETH Holder Count',
       threshold: `> ${t.holder_floor.toLocaleString()}`,
-      current: holders ? holders.eth_holders.toLocaleString() : '\u2014',
-      status: holders ? getStatus(holders.eth_holders, t.holder_floor, 10) : 'safe',
+      current: holders ? (holders.eth_holders ?? 0).toLocaleString() : '\u2014',
+      status: holders ? getStatus(holders.eth_holders ?? 0, t.holder_floor, 10) : 'safe',
     },
     {
       id: 'liquidity',
